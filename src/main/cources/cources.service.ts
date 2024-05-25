@@ -25,7 +25,7 @@ export class CourcesService {
     const checkCategory = await this.utilsService.findCategory(course_category);
 
     if (!checkCategory) {
-      throw new BadRequestException('This Category name is already created, Please change name!');
+      throw new BadRequestException('This Category name is nor exsist, Please change name!');
     }
 
     const courseTemplate = await this.Courses.create({
@@ -108,11 +108,28 @@ export class CourcesService {
   }
   
   async remove(id: string): Promise<Object> {
-    await checkId(id)
-    const deletedCourse = await this.Courses.findByIdAndDelete(id)
+    await checkId(id);
+    
+    // Check if the course exists
+    const checkExsistC = await this.Courses.findById(id);
+    if (!checkExsistC) {
+      throw new BadRequestException('This Course does not exist!');
+    }
+
+    // Find and delete all sections related to the course
+    const findSections = await this.Sections.find({ cc_course_id: id });
+    if (findSections && findSections.length > 0) {
+      for (const section of findSections) {
+        await this.Sections.findByIdAndDelete(section.id);
+      }
+    }
+
+    // Delete the course
+    const deletedCourse = await this.Courses.findByIdAndDelete(id);
     if (!deletedCourse) {
       throw new NotFoundException('Course not found');
     }
+
     return { message: 'Course deleted successfully', statusCode: 200 };
   }
 }

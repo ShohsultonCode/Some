@@ -37,11 +37,13 @@ export class CourcesController {
  
 
   @Put('update')
+  @UseGuards(AdminGuard)
   async update(@Body() updateCourceDto: UpdateCourseDto):Promise<Object> {    
     return this.courcesService.update(updateCourceDto);
   }
 
   @Delete(':id')
+  @UseGuards(AdminGuard)
   async remove(@Param('id') id: string):Promise<Object> {
     return this.courcesService.remove(id);
   }

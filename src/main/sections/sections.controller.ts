@@ -21,13 +21,9 @@ export class SectionsController {
   }
 
 
-  @Put('')
- async update(@Body() updateSectionDto: UpdateSectionDto) {
+  @Put('update')
+  @UseGuards(AdminGuard)
+ async update(@Body() updateSectionDto: UpdateSectionDto):Promise<Object> {
     return this.sectionsService.update(updateSectionDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.sectionsService.remove(+id);
   }
 }

@@ -39,12 +39,35 @@ export class SectionsService {
 
   }
 
-  update( updateSectionDto: UpdateSectionDto) {
-    
-    return `This action updates a #ection`;
-  }
+  async update( updateSectionDto: UpdateSectionDto):Promise<Object> {
+    const {cc_id, cc_course_id, cc_date, cc_description, cc_title, cc_video } = updateSectionDto;
 
-  remove(id: number) {
-    return `This action removes a #${id} section`;
+    
+    await checkId(cc_course_id);
+
+    const findSection = await this.Sections.findById(cc_course_id);
+    if (!findSection) {
+      throw new NotFoundException('Section not found');
+    }
+
+    const updatedSectionData = {
+      cc_title: cc_title.trim(),
+      cc_description: cc_description.trim(),
+      cc_video: cc_video.trim(),
+      cc_date: cc_date,
+    };
+
+    const updatedSection = await this.Sections.findByIdAndUpdate(
+      cc_course_id,
+      updatedSectionData,
+      { new: true }
+    );
+
+    if (!updatedSection) {
+      throw new NotFoundException('Failed to update section');
+    }
+
+    return { message: 'Successfully updated', statusCode: 200 };
   }
-}
+  }
+  
