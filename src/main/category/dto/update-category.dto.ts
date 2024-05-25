@@ -17,6 +17,7 @@ export class UpdateCategoryDto {
   @IsOptional()
   category_name: string;
 
+
   @IsString()
   @ApiProperty({
     example:"Description of category"

@@ -59,40 +59,52 @@ export class CategoryService {
     return { message: "Success", statusCode: 200, data: category }
   }
 
-  async update(body: UpdateCategoryDto, req: any, file: UploadedFileInter): Promise<Object> {
-    const { category_name, category_isactive, category_id, category_description } = body
-    await checkId(category_id)
+  async update(
+    body: UpdateCategoryDto,
+    req: any,
+    file: UploadedFileInter,
+  ): Promise<Object> {
+    const { category_name, category_isactive, category_id, category_description } = body;
+
+    await checkId(category_id);
+
     const findCategory = await this.Categories.findById(category_id);
     if (!findCategory) {
-      throw new NotFoundException("Category not found")
+      throw new NotFoundException("Category not found");
     }
+
     if (file && file.filename) {
       const imageNameToDelete = findCategory.category_image;
-      const deleteImage = await this.imageService.deleteImage(imageNameToDelete)
-      findCategory.category_image = file.filename
-      await findCategory.save()
+      await this.imageService.deleteImage(imageNameToDelete);
+      findCategory.category_image = file.filename;
     }
-    const categoryTemplate = {
-      category_name: category_name ? category_name : category_name,
-      category_description: category_description ? category_description : category_description,
-      category_isactive: category_isactive,
-    }
-    if (category_isactive) {
-      const checkNameOfCategory = await this.Categories.findOne({
-        category_name: category_name.trim().toLowerCase()
-      })
 
-      if (checkNameOfCategory) {
+    if (category_isactive && category_name) {
+      const checkNameOfCategory = await this.Categories.findOne({
+        category_name: category_name.trim().toLowerCase(),
+      });
+
+      if (checkNameOfCategory && checkNameOfCategory._id.toString() !== category_id) {
         throw new BadRequestException(
-          'This Category name is already created, Please change name !',
+          'This category name is already created, please change the name!',
         );
       }
     }
 
-    const updatedCategory = await this.Categories.findByIdAndUpdate(category_id, categoryTemplate)
-    await updatedCategory.save();
+    const categoryTemplate = {
+      category_name: category_name || findCategory.category_name,
+      category_description: category_description || findCategory.category_description,
+      category_isactive: typeof category_isactive !== 'undefined' ? category_isactive : findCategory.category_isactive,
+      category_image: findCategory.category_image,
+    };
 
-    return { message: "Successfuly Update", statusCode: 200 }
+    const updatedCategory = await this.Categories.findByIdAndUpdate(category_id, categoryTemplate, { new: true });
+
+    if (!updatedCategory) {
+      throw new NotFoundException("Failed to update category");
+    }
+
+    return { message: "Successfully updated", statusCode: 200 };
   }
 
   async remove(id: string): Promise<Object> {
