@@ -2,20 +2,20 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 
 export class CreateCategoryDto {
+  @IsNotEmpty()
   @IsString() 
   @ApiProperty({
     example:"Programming"
   })  
-  @IsNotEmpty()
   @MinLength(3)
   @MaxLength(50)
   category_name: string;
 
+  @IsNotEmpty()
   @IsString()
   @ApiProperty({
     example:"Programming is most important skills"
   })  
-  @IsNotEmpty()
   @MinLength(4)
   @MaxLength(650)
   category_description: string;

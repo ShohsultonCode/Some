@@ -46,7 +46,7 @@ export class CategoryService {
 
     const category = await this.Categories.findById(newCategory.id)
 
-    return { message: 'Success', statusCode: 200, data: category };
+    return { message: 'Success', statusCode: 200 };
   }
 
   async findAllCategories(): Promise<Object> {
