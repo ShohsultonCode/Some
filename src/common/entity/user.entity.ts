@@ -26,6 +26,15 @@ export interface Category extends Document {
   category_isactive: boolean;
 }
 
+export class Section {
+  id: string;
+  cc_title: string;
+  cc_description: string;
+  category_video: any;
+  cc_isactive: boolean;
+  cc_data:string;
+}
+
 export interface Course extends Document {
   id: string;
   course_name: string;

@@ -26,4 +26,11 @@ export class SectionsController {
  async update(@Body() updateSectionDto: UpdateSectionDto):Promise<Object> {
     return this.sectionsService.update(updateSectionDto);
   }
+
+
+  @Delete(':id')
+  @UseGuards(AdminGuard)
+ async delete(@Param("id") id:string ):Promise<Object> {
+    return this.sectionsService.delete(id);
+  }
 }

@@ -110,13 +110,11 @@ export class CourcesService {
   async remove(id: string): Promise<Object> {
     await checkId(id);
     
-    // Check if the course exists
     const checkExsistC = await this.Courses.findById(id);
     if (!checkExsistC) {
       throw new BadRequestException('This Course does not exist!');
     }
 
-    // Find and delete all sections related to the course
     const findSections = await this.Sections.find({ cc_course_id: id });
     if (findSections && findSections.length > 0) {
       for (const section of findSections) {
@@ -124,7 +122,6 @@ export class CourcesService {
       }
     }
 
-    // Delete the course
     const deletedCourse = await this.Courses.findByIdAndDelete(id);
     if (!deletedCourse) {
       throw new NotFoundException('Course not found');
