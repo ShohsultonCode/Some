@@ -2,7 +2,10 @@ import { Body, Controller, Delete, Post, Put, Req, UseGuards } from '@nestjs/com
 import { WalletsService } from './wallets.service';
 import { JwtAuthGuard } from 'src/common/guards/auth.guard';
 import { updateWalletDto } from './dto/update.wallet.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+
+@ApiTags('wallets')
 @Controller('wallets')
 export class WalletsController {
   constructor(private readonly walletsService: WalletsService) {}
