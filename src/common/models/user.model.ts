@@ -8,6 +8,5 @@ export const UserSchema = new mongoose.Schema({
   user_email: { type: String, required: true, unique: true },
   user_image: { type: String,  default:null},
   user_password: { type: String, required: true },
-  user_wallet: { type: Number, required: true,  default:50000},
   user_role: { type: String, required: true, default:"user"},
 });

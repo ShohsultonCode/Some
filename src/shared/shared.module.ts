@@ -10,6 +10,7 @@ import { ImageModule } from 'src/main/image/image.module';
 import { SectionsModule } from 'src/main/sections/sections.module';
 import { StatistcModule } from 'src/main/statistc/statistc.module';
 import { UsersModule } from 'src/main/users/users.module';
+import { WalletsModule } from 'src/main/wallets/wallets.module';
 
 @Module({
   imports: [
@@ -27,7 +28,8 @@ import { UsersModule } from 'src/main/users/users.module';
     CategoryModule,
     CourcesModule,
     SectionsModule,
-    StatistcModule
+    StatistcModule,
+    WalletsModule
   ],
   providers: [],
   controllers: []

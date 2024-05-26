@@ -1,4 +1,4 @@
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Post, Req, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/common/guards/auth.guard';
 import { UsersService } from './users.service';
 import { ApiTags } from '@nestjs/swagger';
@@ -10,8 +10,13 @@ export class UsersController {
 
   @Get('/profile')
   @UseGuards(JwtAuthGuard) 
-  async login(@Req() req: any): Promise<Object> {
+  async profile(@Req() req: any): Promise<Object> {
     return this.usersService.getProfile(req);
   }
-  
+
+  @Post('/register/course/:id')
+  @UseGuards(JwtAuthGuard) 
+  async registerCourse(@Param("id") id:string,  @Req() req: any): Promise<Object> {
+    return this.usersService.registerCourse(id, req);
+  }
 }

@@ -13,7 +13,7 @@ export interface User extends Document {
   user_email: string;
   user_password: string;
   user_image: string;
-  user_card: number;
+  user_wallet: number;
   user_role: UserRole;
   user_isactive: boolean;
   user_last_login_date: Date;
@@ -46,7 +46,7 @@ export class OrderPayment extends Document  {
 
 export class Wallets extends Document {
   id: string;
-  wallet_amount: string;
+  wallet_amount: number;
   wallet_user_id: mongoose.Schema.Types.ObjectId;
   wallet_isactive: boolean;
 }

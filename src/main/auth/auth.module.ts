@@ -8,13 +8,12 @@ import { AdminGuard } from 'src/common/guards/checkrole.guard';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { ImageService } from '../image/image.service';
+import { Schemas } from 'src/config/constant';
 
 
 @Module({
   imports: [
-    MongooseModule.forFeature([
-      { name: 'Users', schema: UserSchema },
-    ]),
+    MongooseModule.forFeature(Schemas),
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => {
