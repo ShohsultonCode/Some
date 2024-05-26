@@ -50,6 +50,11 @@ export class Wallets extends Document {
   wallet_user_id: mongoose.Schema.Types.ObjectId;
   wallet_isactive: boolean;
 }
+export class Org extends Document {
+  id: string;
+  org_name:string;
+  org_balance: number;
+}
 
 export interface Course extends Document {
   id: string;

@@ -110,7 +110,6 @@ export class CategoryService {
   async remove(id: string): Promise<Object> {
     await checkId(id);
     const findCategoryImg = await this.Categories.findById(id)
-
     if (findCategoryImg && findCategoryImg.category_image) {
       const deleteImage = await this.imageService.deleteImage(findCategoryImg.category_image)
       const deleteCategory = await this.Categories.findByIdAndDelete(id);

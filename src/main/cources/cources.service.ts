@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { UtilsService } from 'src/admin/utilies.service';
-import { Category, Course, Section } from 'src/common/entity/user.entity';
+import { Category, Course, Org, Section } from 'src/common/entity/user.entity';
 import { checkId } from 'src/utils/check.id';
 import { ImageService } from '../image/image.service';
 import { CreateCourseDto } from './dto/create-cource.dto';
@@ -14,10 +14,10 @@ export class CourcesService {
     @InjectModel('Categories') private readonly Categories: Model<Category>,
     @InjectModel('Courses') private readonly Courses: Model<Course>,
     @InjectModel('Sections') private readonly Sections: Model<Section>,
+    @InjectModel('Organizations') private readonly Org: Model<Org>,
     private readonly imageService: ImageService,
     private readonly utilsService: UtilsService,
   ) { }
-
 
   async create(body: CreateCourseDto): Promise<Object> {
     const { course_name, course_category, course_description, course_video, course_duration, course_price, course_learns, course_isactive } = body;

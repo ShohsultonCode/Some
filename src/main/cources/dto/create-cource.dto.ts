@@ -26,7 +26,7 @@
 
     @IsString()
     @ApiProperty({
-      example: "Programming",
+      example: "Id of category",
       description: "Category of the course",
     })
     @IsNotEmpty()
@@ -35,7 +35,7 @@
     @IsOptional()
     @IsArray()
     @ApiProperty({
-      example: ["beginner", "intermediate", "advanced"],
+      example: ["list of users"],
       description: "List of people count descriptions",
     })
     @IsNotEmpty()
