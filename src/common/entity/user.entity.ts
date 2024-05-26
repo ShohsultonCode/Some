@@ -26,13 +26,29 @@ export interface Category extends Document {
   category_isactive: boolean;
 }
 
-export class Section {
+export class Section extends Document  {
   id: string;
   cc_title: string;
   cc_description: string;
   category_video: any;
   cc_isactive: boolean;
   cc_data:string;
+}
+
+export class OrderPayment extends Document  {
+  id: string;
+  orderp_user_id: string;
+  orderp_user_wallet_id: string;
+  orderp_course_id: string;
+  orderp_price_amount: string;
+  orderp_date: Date;
+}
+
+export class Wallets extends Document {
+  id: string;
+  wallet_amount: string;
+  wallet_user_id: mongoose.Schema.Types.ObjectId;
+  wallet_isactive: boolean;
 }
 
 export interface Course extends Document {

@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateSectionDto } from './dto/create-section.dto';
 import { UpdateSectionDto } from './dto/update-section.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Course, Section } from 'src/common/entity/user.entity';
+import { Course, OrderPayment, Section } from 'src/common/entity/user.entity';
 import { Model } from 'mongoose';
 import { checkId } from 'src/utils/check.id';
 
