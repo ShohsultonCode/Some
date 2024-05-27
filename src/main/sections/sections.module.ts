@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Schemas } from 'src/config/constant';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { WalletsService } from '../wallets/wallets.service';
 
 @Module({
   imports:[
@@ -21,6 +22,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     }),
    ],
   controllers: [SectionsController],
-  providers: [SectionsService],
+  providers: [SectionsService, WalletsService],
 })
 export class SectionsModule {}

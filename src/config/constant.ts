@@ -4,6 +4,7 @@ import { CourseContentSchema } from "src/common/models/course.content";
 import { CourseSchema } from "src/common/models/course.model";
 import { OrderPaymentsSchema } from "src/common/models/order.payments.model";
 import { OrganizationSchema } from "src/common/models/org.model";
+import { UserSectionCompletionSchema } from "src/common/models/user.course.duration";
 import { UserCourseSchema } from "src/common/models/user.course.model";
 import { walletSchema } from "src/common/models/wallet.model";
 
@@ -18,4 +19,5 @@ export const Schemas = [
   { name: 'Wallets', schema: walletSchema},
   { name: 'Organizations', schema: OrganizationSchema},
   { name: 'Usercourses', schema: UserCourseSchema},
+  { name: 'UserSectionComletions', schema: UserSectionCompletionSchema},
 ]

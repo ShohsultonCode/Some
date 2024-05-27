@@ -63,6 +63,14 @@ export class UserCourse extends Document {
   uc_date: Date;
   uc_completed:boolean;
 }
+
+export class UserSectionCompletion extends Document{
+  usc_user_id: mongoose.Types.ObjectId;
+  usc_course_id: mongoose.Types.ObjectId;
+  usc_section_id: mongoose.Types.ObjectId;
+  usc_is_completed: boolean;
+  usc_completion_date: Date | null; 
+}
 export interface Course extends Document {
   id: string;
   course_name: string;

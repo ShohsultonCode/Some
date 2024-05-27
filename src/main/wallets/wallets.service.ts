@@ -12,6 +12,19 @@ export class WalletsService {
   ) { }
 
 
+
+  async checkWallet(id: string): Promise<Object> {
+    const myWallet = await this.Wallets.findOne({
+      wallet_user_id: id,
+    });
+
+    if (!myWallet) {
+      return false
+    }
+
+    return { walletExists: true, wallet: myWallet };
+  }
+  
   async getWallet(req:any):Promise<Object>{
     const myWallet = await this.Wallets.findOne({
         wallet_user_id:req.user.id
