@@ -119,6 +119,10 @@ export class UsersService {
     };
   }
   
+  async completeCourse():Promise<Object>{
+    
+    return
+  }
 
 
 

@@ -110,15 +110,18 @@ export class SectionsService {
     return { message: "Success", statusCode: 200 }
   }
 
-  async myCompleteSection(req: any): Promise<Object> {
+  async myCompleteSection(req: any, id:string): Promise<Object> {
     const userId = req.user.id
     await checkId(userId)
+    await checkId(id)
     const findUser = await this.Users.findById(userId)
-    if (!findUser) {
-      throw new NotFoundException("User not found")
+    const findCourse = await this.Courses.findById(id)
+    if (!findUser || !findCourse) {
+      throw new NotFoundException("Course not found")
     }
     const myCompletionSections = await this.UserSectionCompletions.find({
       usc_user_id: req.user.id,
+      usc_course_id:id,
       usc_is_completed: true,
     })
 

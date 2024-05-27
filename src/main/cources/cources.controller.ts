@@ -5,6 +5,7 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AdminGuard } from 'src/common/guards/checkrole.guard';
 import { UpdateCourseDto } from './dto/update.category.dto';
 import { JwtAuthGuard } from 'src/common/guards/auth.guard';
+import { WalletCheckGuard } from 'src/common/guards/wallet.guard';
 
 
 @ApiTags('cources')
@@ -30,6 +31,7 @@ export class CourcesController {
 
 
   @Get("my")
+  @UseGuards(WalletCheckGuard)
   @UseGuards(JwtAuthGuard)
   @ApiResponse({ status: 200, description: 'All cources' })
   @ApiResponse({ status: 400, description: 'Bad Request' })

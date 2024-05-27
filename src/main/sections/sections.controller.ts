@@ -45,10 +45,10 @@ export class SectionsController {
     return this.sectionsService.completeSection(body, req);
   }
 
-  @Get('/my/complete/sections')
+  @Get('/my/complete/sections/:id')
   @UseGuards(WalletCheckGuard)
   @UseGuards(JwtAuthGuard)
-  async mySectionComplete(@Req() req: any): Promise<Object> {
-    return this.sectionsService.myCompleteSection(req);
+  async mySectionComplete(@Req() req: any, @Param() id:string): Promise<Object> {
+    return this.sectionsService.myCompleteSection(req, id);
   }
 }

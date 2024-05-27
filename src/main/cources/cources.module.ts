@@ -7,6 +7,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { ImageService } from '../image/image.service';
 import { UtilsService } from 'src/admin/utilies.service';
+import { WalletsService } from '../wallets/wallets.service';
 
 @Module({
   imports:[
@@ -23,6 +24,6 @@ import { UtilsService } from 'src/admin/utilies.service';
     }),
    ],
   controllers: [CourcesController],
-  providers: [CourcesService, ImageService, UtilsService],
+  providers: [CourcesService, ImageService, UtilsService, WalletsService],
 })
 export class CourcesModule {}

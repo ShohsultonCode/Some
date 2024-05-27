@@ -7,6 +7,7 @@ import { JwtAuthGuard } from 'src/common/guards/auth.guard';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { Schemas } from 'src/config/constant';
+import { WalletsService } from '../wallets/wallets.service';
 
 @Module({
   imports: [
@@ -26,7 +27,7 @@ import { Schemas } from 'src/config/constant';
     }),
   ],
   controllers: [UsersController],
-  providers: [UsersService, JwtAuthGuard],
+  providers: [UsersService, JwtAuthGuard, WalletsService],
 })
 export class UsersModule { }
 
