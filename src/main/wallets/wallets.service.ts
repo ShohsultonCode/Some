@@ -12,6 +12,17 @@ export class WalletsService {
   ) { }
 
 
+  async getWallet(req:any):Promise<Object>{
+    const myWallet = await this.Wallets.findOne({
+        wallet_user_id:req.user.id
+    })
+    if (!myWallet) {
+      throw new BadRequestException("You do not have wallet")
+    }
+
+    return {message:"Success", statusCode:200, data:myWallet}
+  }
+  
   async createWallet(req: any): Promise<Object> {
     const findUser = await this.Users.findById(req.user.id)
     if (!findUser) {

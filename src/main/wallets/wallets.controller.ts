@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Post, Put, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { WalletsService } from './wallets.service';
 import { JwtAuthGuard } from 'src/common/guards/auth.guard';
 import { updateWalletDto } from './dto/update.wallet.dto';
@@ -15,6 +15,13 @@ export class WalletsController {
   @UseGuards(JwtAuthGuard)
   async createWallet(@Req() req:any):Promise<Object>{
     return await this.walletsService.createWallet(req)
+  }
+
+
+  @Get()
+  @UseGuards(JwtAuthGuard)
+  async getWallet(@Req() req:any):Promise<Object>{
+    return await this.walletsService.getWallet(req)
   }
 
   @Delete()

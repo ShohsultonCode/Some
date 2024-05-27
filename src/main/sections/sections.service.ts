@@ -40,11 +40,11 @@ export class SectionsService {
   async update( updateSectionDto: UpdateSectionDto):Promise<Object> {
     const {cc_id, cc_course_id, cc_date, cc_description, cc_title, cc_video } = updateSectionDto;
     await checkId(cc_course_id);
-    const findSection = await this.Sections.findById(cc_course_id);
+    await checkId(cc_id)
+    const findSection = await this.Sections.findById(cc_id);
     if (!findSection) {
       throw new NotFoundException('Section not found');
     }
-
     const updatedSectionData = {
       cc_title: cc_title || findSection.cc_title,
       cc_description: cc_description || findSection.cc_description,
@@ -53,7 +53,7 @@ export class SectionsService {
     };
 
     const updatedSection = await this.Sections.findByIdAndUpdate(
-      cc_course_id,
+      cc_id,
       updatedSectionData,
       { new: true }
     );
