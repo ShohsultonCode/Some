@@ -1,8 +1,6 @@
   // dto/create-course.dto.ts
   import { ApiProperty } from '@nestjs/swagger';
-  import { IsArray, IsBoolean, IsNotEmpty, IsOptional, IsString, MaxLength, MinLength, ValidateNested } from 'class-validator';
-  import { Type } from 'class-transformer';
-  import { CreateCourseSectionDto } from 'src/main/category/dto/course.section.dto';
+import { IsArray, IsBoolean, IsNotEmpty, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
   export class CreateCourseDto {
     @IsString()
     @ApiProperty({

@@ -1,9 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { CourcesService } from './cources.service';
 import { CreateCourseDto } from './dto/create-cource.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AdminGuard } from 'src/common/guards/checkrole.guard';
 import { UpdateCourseDto } from './dto/update.category.dto';
+import { JwtAuthGuard } from 'src/common/guards/auth.guard';
 
 
 @ApiTags('cources')
@@ -25,6 +26,15 @@ export class CourcesController {
   @ApiResponse({ status: 400, description: 'Bad Request' })
   async findAll():Promise<Object> { 
     return this.courcesService.findAll();
+  }
+
+
+  @Get("my")
+  @UseGuards(JwtAuthGuard)
+  @ApiResponse({ status: 200, description: 'All cources' })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  async findMyCourses(@Req() req:any):Promise<Object> { 
+    return this.courcesService.findMyCourses(req);
   }
 
 

@@ -1,18 +1,19 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Course, Org, User, Wallets } from 'src/common/entity/user.entity';
+import { Course, OrderPayment, Org, User, UserCourse, Wallets } from 'src/common/entity/user.entity';
 import { checkId } from 'src/utils/check.id';
-import { Cource } from '../cources/entities/cource.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectModel('Users') private readonly Users: Model<User>, 
-    @InjectModel('Wallets') private readonly Wallets: Model<Wallets>, 
-    @InjectModel('Courses') private readonly Cources: Model<Course>, 
-    @InjectModel('Organizations') private readonly Org: Model<Org>, 
-  ) {}
+    @InjectModel('Users') private readonly Users: Model<User>,
+    @InjectModel('Wallets') private readonly Wallets: Model<Wallets>,
+    @InjectModel('Courses') private readonly Cources: Model<Course>,
+    @InjectModel('Organizations') private readonly Org: Model<Org>,
+    @InjectModel('Usercourses') private readonly UserCourse: Model<UserCourse>,
+    @InjectModel('OrderPayments') private readonly OrderPayment: Model<OrderPayment>,
+  ) { }
 
   async getProfile(req: any): Promise<Object> {
     try {
@@ -20,9 +21,9 @@ export class UsersService {
       if (!user) {
         throw new NotFoundException('User not found!');
       }
-      
+
       const { user_firstname, user_lastname, user_email } = user;
-  
+
       return {
         message: 'Success',
         statusCode: 200,
@@ -43,16 +44,25 @@ export class UsersService {
     await checkId(userId);
   
     const findUser = await this.Users.findById(userId);
-    const findCource = await this.Cources.findById(courseId);
+    const findCourse = await this.Cources.findById(courseId);
   
-    if (!findUser || !findCource) {
+    if (!findUser || !findCourse) {
       throw new NotFoundException("Course or User not found");
     }
   
-    const coursePrice = Number(findCource.course_price);
+    const checkAlreadyRegisteredCourse = await this.UserCourse.findOne({
+      uc_course_id: findCourse.id,
+      uc_user_id: findUser.id
+    });
+  
+    if (checkAlreadyRegisteredCourse) {
+      throw new BadRequestException("You can buy the course only once");
+    }
+  
+    const coursePrice = Number(findCourse.course_price);
   
     const findWallet = await this.Wallets.findOne({
-      wallet_user_id: userId
+      wallet_user_id: findUser.id
     });
   
     if (!findWallet || findWallet.wallet_amount < coursePrice) {
@@ -66,20 +76,50 @@ export class UsersService {
     }
   
     const organization = org[0];
-    const organizationShare =  coursePrice * 0.10;
+    const organizationShare = coursePrice * 0.10;
   
-    findWallet.wallet_amount -= Number(coursePrice);
-  
-    organization.org_balance += Number(organizationShare);
+    findWallet.wallet_amount -= coursePrice;
+    organization.org_balance += organizationShare;
   
     await findWallet.save();
     await organization.save();
-    
-
+  
+    const createUserCourse = new this.UserCourse({
+      uc_course_id: findCourse.id,
+      uc_price_action: coursePrice,
+      uc_user_id: userId,
+      uc_date: Date.now(),
+      uc_completed: false
+    });
+  
+    // Check if the OrderPayment entry already exists
+    const existingOrderPayment = await this.OrderPayment.findOne({
+      orderp_course_id: findCourse.id,
+      orderp_user_id: findUser.id
+    });
+  
+    if (!existingOrderPayment) {
+      const createOrderPayment = new this.OrderPayment({
+        orderp_course_id: findCourse.id,
+        orderp_user_id: findUser.id,
+        orderp_price_amount: coursePrice,
+        orderp_date: Date.now(),
+        orderp_user_wallet_id: findWallet.id
+      });
+      await createOrderPayment.save();
+    } else {
+      throw new BadRequestException("Order payment already exists for this course and user");
+    }
+  
+    await createUserCourse.save();
+  
     return {
       message: "Course registered successfully",
       statusCode: 200
     };
   }
   
+
+
+
 }

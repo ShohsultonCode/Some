@@ -56,6 +56,13 @@ export class Org extends Document {
   org_balance: number;
 }
 
+export class UserCourse extends Document {
+  uc_user_id: string;
+  uc_course_id: string;
+  uc_price_action: string;
+  uc_date: Date;
+  uc_completed:boolean;
+}
 export interface Course extends Document {
   id: string;
   course_name: string;

@@ -19,4 +19,6 @@ export class UsersController {
   async registerCourse(@Param("id") id:string,  @Req() req: any): Promise<Object> {
     return this.usersService.registerCourse(id, req);
   }
+
+  
 }

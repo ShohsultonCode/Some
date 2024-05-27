@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { UtilsService } from 'src/admin/utilies.service';
-import { Category, Course, Org, Section } from 'src/common/entity/user.entity';
+import { Category, Course, Org, Section, UserCourse } from 'src/common/entity/user.entity';
 import { checkId } from 'src/utils/check.id';
 import { ImageService } from '../image/image.service';
 import { CreateCourseDto } from './dto/create-cource.dto';
@@ -15,6 +15,7 @@ export class CourcesService {
     @InjectModel('Courses') private readonly Courses: Model<Course>,
     @InjectModel('Sections') private readonly Sections: Model<Section>,
     @InjectModel('Organizations') private readonly Org: Model<Org>,
+    @InjectModel('Usercourses') private readonly UserCourse: Model<UserCourse>,
     private readonly imageService: ImageService,
     private readonly utilsService: UtilsService,
   ) { }
@@ -46,6 +47,11 @@ export class CourcesService {
 
   async findAll(): Promise<Object> {
     const courses = await this.Courses.find().populate('course_category').populate('course_sections').exec();
+    return { data: courses, message: 'Success', statusCode: 200 };
+  }
+
+  async findMyCourses(req:any): Promise<Object> {
+    const courses = await this.UserCourse.find({uc_user_id:req.user.id}).populate('uc_course_id').exec();
     return { data: courses, message: 'Success', statusCode: 200 };
   }
 
