@@ -55,7 +55,10 @@ export class CategoryService {
   }
 
   async findOne(id: string): Promise<Object> {
-    const category = await this.utilsService.findCategory(id)
+    const category = await this.Categories.findOne({category_isactive:true, id:id})
+    if (!category) {
+      throw new NotFoundException("Not found")
+    }
     return { message: "Success", statusCode: 200, data: category }
   }
 
