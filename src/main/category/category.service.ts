@@ -50,12 +50,12 @@ export class CategoryService {
   }
 
   async findAllCategories(): Promise<Object> {
-    const viewForAdminCategories = await this.Categories.find({ category_isactive: true }).exec()
+    const viewForAdminCategories = await this.Categories.find().exec()
     return { message: "Success", statusCode: 200, data: viewForAdminCategories }
   }
 
   async findOne(id: string): Promise<Object> {
-    const category = await this.Categories.findOne({category_isactive:true, id:id})
+    const category = await this.Categories.findById(id)
     if (!category) {
       throw new NotFoundException("Not found")
     }
