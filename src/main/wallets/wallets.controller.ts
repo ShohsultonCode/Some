@@ -18,7 +18,7 @@ export class WalletsController {
   }
 
 
-  @Get()
+  @Get("my")
   @UseGuards(JwtAuthGuard)
   async getWallet(@Req() req:any):Promise<Object>{
     return await this.walletsService.getWallet(req)
