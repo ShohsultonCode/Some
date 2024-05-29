@@ -2,11 +2,11 @@ import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from 
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/common/guards/auth.guard';
 import { AdminGuard } from 'src/common/guards/checkrole.guard';
+import { WalletCheckGuard } from 'src/common/guards/wallet.guard';
 import { CreateUserSectionCompletionDto } from './dto/completion.dto';
 import { CreateSectionDto } from './dto/create-section.dto';
 import { UpdateSectionDto } from './dto/update-section.dto';
 import { SectionsService } from './sections.service';
-import { WalletCheckGuard } from 'src/common/guards/wallet.guard';
 
 
 
@@ -48,7 +48,7 @@ export class SectionsController {
   @Get('/my/complete/sections/:id')
   @UseGuards(WalletCheckGuard)
   @UseGuards(JwtAuthGuard)
-  async mySectionComplete(@Req() req: any, @Param() id:string): Promise<Object> {
+  async mySectionComplete(@Req() req: any, @Param("id") id:string): Promise<Object> {
     return this.sectionsService.myCompleteSection(req, id);
   }
 }

@@ -1,6 +1,6 @@
-import { Body, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Body, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, isValidObjectId } from 'mongoose';
 import { Course, Section, User, UserSectionCompletion } from 'src/common/entity/user.entity';
 import { checkId } from 'src/utils/check.id';
 import { CreateUserSectionCompletionDto } from './dto/completion.dto';
@@ -110,23 +110,31 @@ export class SectionsService {
     return { message: "Success", statusCode: 200 }
   }
 
-  async myCompleteSection(req: any, id:string): Promise<Object> {
-    const userId = req.user.id
-    await checkId(userId)
-    await checkId(id)
-    const findUser = await this.Users.findById(userId)
-    const findCourse = await this.Courses.findById(id)
-    if (!findUser || !findCourse) {
-      throw new NotFoundException("Course not found")
+  async myCompleteSection(req: any, id: string): Promise<Object> {
+    
+    const userId = req.user.id;
+    if (!isValidObjectId(userId) || !isValidObjectId(id)) {
+      throw new BadRequestException('Invalid ID format');
     }
+
+    const findUser = await this.Users.findById(userId);
+    const findCourse = await this.Courses.findById(id);
+
+    if (!findUser) {
+      throw new NotFoundException('User not found');
+    }
+
+    if (!findCourse) {
+      throw new NotFoundException('Course not found');
+    }
+
     const myCompletionSections = await this.UserSectionCompletions.find({
-      usc_user_id: req.user.id,
-      usc_course_id:id,
+      usc_user_id: userId,
+      usc_course_id: id,
       usc_is_completed: true,
-    })
+    });
 
-
-    return { message: "Success", statusCode: 200, data: myCompletionSections }
+    return { message: 'Success', statusCode: 200, data: myCompletionSections };
   }
 }
 
