@@ -42,6 +42,7 @@ export class AuthService {
         user_lastname: registerData.user_lastname.trim(),
         user_email: registerData.user_email.trim(),
         user_password: hashedPassword,
+        user_image:"profile.jpg"
       };
 
       const result = await this.Users.create(newUser);
@@ -103,6 +104,14 @@ export class AuthService {
         throw new NotFoundException('User not found');
       }
   
+      if (user_email) {
+        const checkEmail = await this.Users.findOne({
+            user_email:user_email
+        })
+        if (checkEmail) {
+          throw new NotFoundException("Email is alredy exsist")
+        }
+      }
       if (file && file.filename) {
         const imageNameToDelete = user.user_image;
         const deleteImage = await this.imageService.deleteImage(imageNameToDelete)

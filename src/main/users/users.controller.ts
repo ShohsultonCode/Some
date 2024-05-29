@@ -14,6 +14,11 @@ export class UsersController {
   async profile(@Req() req: any): Promise<Object> {
     return this.usersService.getProfile(req);
   }
+  @Get('/org')
+  @UseGuards(JwtAuthGuard) 
+  async org(@Req() req: any): Promise<any> {
+    return this.usersService.createOrg();
+  }
 
   @Post('/register/course/:id')
   @UseGuards(WalletCheckGuard) 

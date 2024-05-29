@@ -52,6 +52,9 @@ export class CourcesService {
 
   async findMyCourses(req:any): Promise<Object> {
     const courses = await this.UserCourse.find({uc_user_id:req.user.id}).populate('uc_course_id').exec();
+    if (!courses) {
+      throw new NotFoundException("You do not have course, Please register course!")
+    }
     return { data: courses, message: 'Success', statusCode: 200 };
   }
 

@@ -15,6 +15,11 @@ export class UsersService {
     @InjectModel('OrderPayments') private readonly OrderPayment: Model<OrderPayment>,
   ) { }
 
+  async createOrg(){
+    const org = await this.Org.create({
+      org_name:"Brain Group",
+    })
+  }
   async getProfile(req: any): Promise<Object> {
     try {
       const user = await this.Users.findById(req.user.id);
@@ -22,7 +27,7 @@ export class UsersService {
         throw new NotFoundException('User not found!');
       }
 
-      const { user_firstname, user_lastname, user_email } = user;
+      const { user_firstname, user_lastname, user_email, user_image, user_last_login_date } = user;
 
       return {
         message: 'Success',
@@ -30,7 +35,9 @@ export class UsersService {
         data: {
           user_firstname,
           user_lastname,
-          user_email
+          user_email, 
+          user_image, 
+          user_last_login_date
         }
       };
     } catch (error) {
@@ -76,11 +83,9 @@ export class UsersService {
     }
   
     const organization = org[0];
-    const organizationShare = coursePrice * 0.10;
-  
+    const organizationShare = Number(findCourse.course_price)
     findWallet.wallet_amount -= coursePrice;
-    organization.org_balance += organizationShare;
-  
+    organization.org_balance += coursePrice
     await findWallet.save();
     await organization.save();
   

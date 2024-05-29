@@ -45,4 +45,10 @@ export class StatistcController {
   async findAllWallets():Promise<Object> {
     return this.statistcService.findAllOrderPayments();
   }
+
+  @Get("funds")
+  @UseGuards(AdminGuard)
+  async findFunda():Promise<Object> {
+    return this.statistcService.findFunds();
+  }
 }

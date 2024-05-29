@@ -3,7 +3,7 @@ import { CreateStatistcDto } from './dto/create-statistc.dto';
 import { UpdateStatistcDto } from './dto/update-statistc.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Category, Course, OrderPayment, Section, User, Wallets } from 'src/common/entity/user.entity';
+import { Category, Course, OrderPayment, Org, Section, User, Wallets } from 'src/common/entity/user.entity';
 
 @Injectable()
 export class StatistcService {
@@ -14,6 +14,7 @@ export class StatistcService {
     @InjectModel('Users') private readonly Users: Model<User>,
     @InjectModel('OrderPayments') private readonly OrderPayments: Model<OrderPayment>,
     @InjectModel('Wallets') private readonly Wallets: Model<Wallets>,
+    @InjectModel('Organizations') private readonly Org: Model<Org>,
   ) { }
 
   async findAllUsers(): Promise<Object> {
@@ -63,6 +64,7 @@ export class StatistcService {
   }
 }
 
+
   async findAllWallets(): Promise<Object> {
     const data = await this.Wallets
       .find()
@@ -75,4 +77,13 @@ export class StatistcService {
       }
     }
   }
+
+
+  async findFunds(): Promise<Object> {
+    const data =  await this.Org
+      .find()
+      return {
+        message: "Success", data:data
+  }
+}
 }

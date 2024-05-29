@@ -25,7 +25,7 @@ export const verifyGoogleUser = async (token: any) => {
     const { email, name } = payload;
     return { email, name };
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     
     throw new UnauthorizedException('Invalid token');
   }
