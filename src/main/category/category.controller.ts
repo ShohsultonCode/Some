@@ -27,10 +27,16 @@ export class CategoryController {
     return await this.categoryService.findAllCategories();
   }
 
-  @Get(':id')
+  @Get('/:id')
   async findOne(@Param('id') id: string): Promise<Object> {
     return this.categoryService.findOne(id);
   }
+
+  @Get('filter/:id')
+  async findAllCourseOfC(@Param('id') id: string): Promise<Object> {
+    return this.categoryService.findAllCourseOfC(id);
+  }
+
 
   @Put('')
   @UseGuards(AdminGuard)

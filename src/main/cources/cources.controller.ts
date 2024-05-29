@@ -6,6 +6,7 @@ import { AdminGuard } from 'src/common/guards/checkrole.guard';
 import { UpdateCourseDto } from './dto/update.category.dto';
 import { JwtAuthGuard } from 'src/common/guards/auth.guard';
 import { WalletCheckGuard } from 'src/common/guards/wallet.guard';
+import { FilterCourseDto } from './dto/filter.course.dto';
 
 
 @ApiTags('cources')
@@ -20,6 +21,14 @@ export class CourcesController {
   @ApiResponse({ status: 400, description: 'Bad Request' })
   async create(@Body() body: CreateCourseDto):Promise<Object> {
     return this.courcesService.create(body);
+  }
+
+    
+  @Get("filter")
+  @ApiResponse({ status: 201, description: 'Courses' })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  async filter(@Body() body: FilterCourseDto):Promise<Object> {
+    return this.courcesService.filterCourse(body);
   }
 
   @Get("all")

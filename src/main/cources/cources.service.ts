@@ -7,6 +7,7 @@ import { checkId } from 'src/utils/check.id';
 import { ImageService } from '../image/image.service';
 import { CreateCourseDto } from './dto/create-cource.dto';
 import { UpdateCourseDto } from './dto/update.category.dto';
+import { FilterCourseDto } from './dto/filter.course.dto';
 
 @Injectable()
 export class CourcesService {
@@ -138,4 +139,21 @@ export class CourcesService {
 
     return { message: 'Course deleted successfully', statusCode: 200 };
   }
+
+  async filterCourse(body:FilterCourseDto):Promise<Object>{
+    const {course_name} = body
+
+    const data = await this.Courses.find({
+      course_name: { $regex: new RegExp('^' + course_name.trim(), 'i') },
+    }).exec();
+
+    
+    if (data.length === 0) {
+      throw new NotFoundException("Course not found");
+    }
+    return {message:"Success", statusCode:200, data:data}
+
+  }
+
+  
 }

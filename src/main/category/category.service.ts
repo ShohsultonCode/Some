@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { UtilsService } from 'src/admin/utilies.service';
-import UploadedFileInter, { Category } from 'src/common/entity/user.entity';
+import UploadedFileInter, { Category, Course } from 'src/common/entity/user.entity';
 import { checkId } from 'src/utils/check.id';
 import { ImageService } from '../image/image.service';
 import { CreateCategoryDto } from './dto/category.create.dto';
@@ -14,6 +14,7 @@ import { UpdateCategoryDto } from './dto/update-category.dto';
 export class CategoryService {
   constructor(
     @InjectModel('Categories') private readonly Categories: Model<Category>,
+    @InjectModel('Courses') private readonly Courses: Model<Course>,
     private readonly imageService: ImageService,
     private readonly utilsService: UtilsService,
   ) { }
@@ -55,11 +56,30 @@ export class CategoryService {
   }
 
   async findOne(id: string): Promise<Object> {
+    await checkId(id)
     const category = await this.Categories.findById(id)
     if (!category) {
       throw new NotFoundException("Not found")
     }
     return { message: "Success", statusCode: 200, data: category }
+  }
+
+  async findAllCourseOfC(id: string): Promise<Object> {
+    await checkId(id)
+
+    const category = await this.Categories.findById(id)
+    if (!category) {
+      throw new NotFoundException("Not found")
+    }
+    const data = await this.Courses.find({
+      course_category:id
+    })
+    console.log(data);
+    
+    if (!data) {
+      throw new NotFoundException("Not found")
+    }
+    return { message: "Success", statusCode: 200, data: data }
   }
 
   async update(
