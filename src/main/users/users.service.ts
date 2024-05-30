@@ -16,9 +16,11 @@ export class UsersService {
   ) { }
 
   async createOrg(){
-    const org = await this.Org.create({
-      org_name:"Brain Group",
-    })
+    const data =  await this.Org
+      .find()
+      return {
+        message: "Success", data:data
+      }
   }
   async getProfile(req: any): Promise<Object> {
     try {
