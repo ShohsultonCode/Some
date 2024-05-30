@@ -47,7 +47,7 @@ export class StatistcController {
     return this.statistcService.findFunds();
   }
 
-
+//ss
   @Get("create/org")
   @UseGuards(AdminGuard)
   async createOrg():Promise<Object> {
