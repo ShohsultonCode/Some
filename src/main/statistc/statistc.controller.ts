@@ -38,7 +38,7 @@ export class StatistcController {
   @Get("all/wallets")
   @UseGuards(AdminGuard)
   async findAllWallets():Promise<Object> {
-    return this.statistcService.findAllOrderPayments();
+    return this.statistcService.findAllWallets();
   }
 
   @Get("funds")
