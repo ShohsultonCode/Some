@@ -86,4 +86,11 @@ export class StatistcService {
         message: "Success", data:data
   }
 }
+
+async createOrg(): Promise<Object> {
+  const createORg = await this.Org.create({
+    org_name:"Brain Group"
+  })
+  return
+}
 }

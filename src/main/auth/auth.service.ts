@@ -103,7 +103,8 @@ export class AuthService {
       if (!user) {
         throw new NotFoundException('User not found');
       }
-  
+      
+      
       if (user_email) {
         const checkEmail = await this.Users.findOne({
             user_email:user_email

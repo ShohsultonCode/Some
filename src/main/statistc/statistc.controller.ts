@@ -22,11 +22,6 @@ export class StatistcController {
     return this.statistcService.findAllCources();
   }
 
-  @Get("all/courses")
-  @UseGuards(AdminGuard)
-  async findAllCategory():Promise<Object> {
-    return this.statistcService.findAllCources();
-  }
 
   @Get("all/categories")
   @UseGuards(AdminGuard)
@@ -50,5 +45,12 @@ export class StatistcController {
   @UseGuards(AdminGuard)
   async findFunda():Promise<Object> {
     return this.statistcService.findFunds();
+  }
+
+
+  @Get("create/org")
+  @UseGuards(AdminGuard)
+  async createOrg():Promise<Object> {
+    return this.statistcService.createOrg();
   }
 }
