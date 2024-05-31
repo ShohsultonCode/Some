@@ -7,6 +7,7 @@ import { UpdateCourseDto } from './dto/update.category.dto';
 import { JwtAuthGuard } from 'src/common/guards/auth.guard';
 import { WalletCheckGuard } from 'src/common/guards/wallet.guard';
 import { FilterCourseDto } from './dto/filter.course.dto';
+import { CompleteCourseDto } from './dto/compl.dto';
 
 
 @ApiTags('cources')
@@ -24,7 +25,20 @@ export class CourcesController {
   }
 
     
+<<<<<<< HEAD
   @Post("filter")
+=======
+  @Post("complete")
+  @UseGuards(JwtAuthGuard)
+  @ApiResponse({ status: 201, description: 'The course has been successfully created.' })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
+  async complete(@Req() req: any,  @Body() body: CompleteCourseDto):Promise<Object> {
+    return this.courcesService.completeC(req, body);
+  }
+
+    
+  @Get("filter")
+>>>>>>> 519f6b553430a4ef985926d15c36c923c417004a
   @ApiResponse({ status: 201, description: 'Courses' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   async filter(@Body() body: FilterCourseDto):Promise<Object> {
