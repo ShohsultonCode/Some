@@ -8,6 +8,7 @@ import { ImageService } from '../image/image.service';
 import { CreateCourseDto } from './dto/create-cource.dto';
 import { UpdateCourseDto } from './dto/update.category.dto';
 import { FilterCourseDto } from './dto/filter.course.dto';
+import { CompleteCourseDto } from './dto/compl.dto';
 
 @Injectable()
 export class CourcesService {
@@ -153,6 +154,20 @@ export class CourcesService {
     }
     return {message:"Success", statusCode:200, data:data}
 
+  }
+  async completeC(req:any, body:CompleteCourseDto):Promise<Object>{
+    const findCourseUser = await this.UserCourse.findOne({
+      uc_course_id:body.course_id,
+      uc_user_id:req.user.id,
+    }) 
+  
+    if (!findCourseUser) {
+        throw new NotFoundException("There is no course or user")
+    }
+    
+    findCourseUser.uc_completed = true;
+    await findCourseUser.save()
+    return {message:"Success", statusCode:200}
   }
 
   
