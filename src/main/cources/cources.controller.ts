@@ -24,7 +24,7 @@ export class CourcesController {
   }
 
     
-  @Get("filter")
+  @Post("filter")
   @ApiResponse({ status: 201, description: 'Courses' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   async filter(@Body() body: FilterCourseDto):Promise<Object> {
