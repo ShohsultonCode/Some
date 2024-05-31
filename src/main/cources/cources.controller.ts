@@ -24,7 +24,7 @@ export class CourcesController {
     return this.courcesService.create(body);
   }
 
-    //fuckinbg com
+    sss
   @Post("complete")
   @UseGuards(JwtAuthGuard)
   @ApiResponse({ status: 201, description: 'The course has been successfully created.' })
@@ -35,6 +35,7 @@ export class CourcesController {
 
     
   @Get("filter")
+>>>>>>> 519f6b553430a4ef985926d15c36c923c417004a
   @ApiResponse({ status: 201, description: 'Courses' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
   async filter(@Body() body: FilterCourseDto):Promise<Object> {
