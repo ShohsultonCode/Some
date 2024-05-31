@@ -24,7 +24,7 @@ export class CourcesController {
     return this.courcesService.create(body);
   }
 
-    
+    //fuckinbg com
   @Post("complete")
   @UseGuards(JwtAuthGuard)
   @ApiResponse({ status: 201, description: 'The course has been successfully created.' })
